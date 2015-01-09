@@ -37,8 +37,8 @@ function gsb_feature_alumni_reunion_group_page_display_reunion_finder_content_ty
         '<select id="programSelect" name="programSelect" title="Program Select" style="width:286px">
           <option value="">Program</option>
           <option value="MBA">MBA</option>
-          <option value="Sloan">Sloan</option>
           <option value="MSx">MSx</option>
+          <option value="Sloan">Sloan</option>
         </select><br/><br/>' .
         '<label id="label_programYear" for="programYear">Enter Class Year</label>' .
         '<input id="programYear" maxlength="4" name="programYear" size="4" type="text" placeholder="YYYY">' .
