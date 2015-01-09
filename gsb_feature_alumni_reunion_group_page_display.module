@@ -20,10 +20,14 @@ function gsb_feature_alumni_reunion_group_page_display_menu() {
  */
 function gsb_feature_alumni_reunion_group_page_display_lookup_alias($program, $program_year) {
 
-  $entity_id = '';
+  // cleanz ups da input
+  $program_year = check_plain($program_year);
   if ($program == 'Sloan') {
     $program = 'MSx';
   }
+
+  $entity_id = '';
+
   if ($program == 'MBA') {
     $query = db_select('field_data_field_year', 'fy');
     $query->join('field_data_field_alumni_program', 'ap', 'fy.entity_id = ap.entity_id');
