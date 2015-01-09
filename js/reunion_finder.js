@@ -16,12 +16,46 @@
         };
       })();
 
-      // isNumberic function to check if the user has
+      // isNumberic function - check if the user has
       // entered a numeric value for the program year field
       var isNumeric = function(num) {
         return (num >=0 || num < 0);
       };
 
+      // validateProgramYear function - validate the program year,
+      // checking... if numeric and if length has 4 digits
+      var validateProgramYear = function(programYearValue) {
+        if (!isNumeric(programYearValue)) {
+          console.log('program year: not numeric = ' + programYearValue);
+          $('#gotoReunion').hide();
+          $('#programYear').addClass('error');
+          $('#programYearError').show();
+          return false;
+        }
+        if (programYearValue.length != 4) {
+          console.log('program year: incorrect length = ' + programYearValue);
+          $('#gotoReunion').hide();
+          $('#programYear').addClass('error');
+          $('#programYearError').show();
+          return false;
+        }
+        return true;
+      }
+
+      // checkRangeProgramYear function - if program year entered is
+      // more than 2 years into current year, then sets an error
+      var checkRangeProgramYear = function(programYearValue) {
+        var currentYear = new Date().getFullYear();
+        if (programYearValue > currentYear + 2) {
+          // consider out of range and report no alias found
+          console.log('out of range - alumni reunion alias lookup alias = no alias found');
+          $('#noReunionPage').show();
+          return false;
+        }
+        return true;
+      }
+
+      // getAlias function - makes ajax call to get the reunion alias
       var getAlias = function(getURL) {
         // make the ajax call to get the alias path for the program
         jQuery.getJSON(getURL, function(data) {
@@ -43,35 +77,27 @@
       };
 
       // when a new char has been typed into the program year field
+      // we first do some basic and range validation before...
+      // trying to get the alias and update the gotoReunion button/link
+      // to have the correct alias path
       $('#programYear').keyup(function() {
         // get the selected program
         var programSelectValue = $('#programSelect').val();
         // get the program year
         var programYearValue = $('#programYear').val();
-
+        // hide the 'no reunion page' error text
         $('#noReunionPage').hide();
-
-        if (!isNumeric(programYearValue)) {
-          console.log('program year: not numeric = ' + programYearValue);
-          $('#gotoReunion').hide();
-          $('#programYear').addClass('error');
-          $('#programYearError').show();
+        // do some basic validate of the program year value
+        if (!validateProgramYear(programYearValue)) {
+          // program year is invalid, bye
           return;
         }
-        if (programYearValue.length != 4) {
-          console.log('program year: incorrect length = ' + programYearValue);
-          $('#gotoReunion').hide();
-          $('#programYear').addClass('error');
-          $('#programYearError').show();
-          return;
-        }
+        // clear the program year error settings
         $('#programYear').removeClass('error');
         $('#programYearError').hide();
-        var currentYear = new Date().getFullYear();
-        if (programYearValue > currentYear + 2) {
-          // consider out of range and report no alias found
-          console.log('out of range - alumni reunion alias lookup alias = no alias found');
-          $('#noReunionPage').show();
+        // check the program year range
+        if (!checkRangeProgramYear(programYearValue)) {
+          // program year is out of range, bye
           return;
         }
         // delay a bit before continuing with checking the
