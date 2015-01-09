@@ -26,8 +26,12 @@ function gsb_feature_alumni_reunion_group_page_display_lookup_alias($program, $p
     $program = 'MSx';
   }
 
+  // the lookup will first find an entity id
   $entity_id = '';
 
+  // lookup the alias
+  // lookup for the MBA program uses both the program year and program name, so the
+  // query is a little different
   if ($program == 'MBA') {
     $query = db_select('field_data_field_year', 'fy');
     $query->join('field_data_field_alumni_program', 'ap', 'fy.entity_id = ap.entity_id');
@@ -41,8 +45,9 @@ function gsb_feature_alumni_reunion_group_page_display_lookup_alias($program, $p
       $entity_id = $record->entity_id;
     }
     // one last thing...
-    // if we didn't find an entity in our lookup and...
-    // if the program year is back 50 years, then we return the half-century alias
+    // if we didn't find an entity id in the above lookup and...
+    // if the program year goes back 50 years,
+    // then we return the half-century alias
     $currentYear = date("Y");
     if ($entity_id == '' && $program_year < $currentYear - 50) {
       $query = db_select('field_data_field_alumni_program', 'ap');
@@ -65,6 +70,8 @@ function gsb_feature_alumni_reunion_group_page_display_lookup_alias($program, $p
       $entity_id = $record->entity_id;
     }
   }
+
+  // and now, if we have an entity id, we can lookup the alias
 
   $alias = '';
   if ($entity_id != '') {
