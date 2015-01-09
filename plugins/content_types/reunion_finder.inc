@@ -33,18 +33,18 @@ function gsb_feature_alumni_reunion_group_page_display_reunion_finder_content_ty
     'title' => '',
     'content' => array(
       '#markup' => '' .
-        '<h3>Find Your Reunion</h3>' .
-        '<select id="programSelect" name="programSelect" title="Program Select" style="width:286px">
-          <option value="">Program</option>
-          <option value="MBA">MBA</option>
-          <option value="MSx">MSx</option>
-          <option value="Sloan">Sloan</option>
-        </select><br/><br/>' .
-        '<label id="label_programYear" for="programYear">Enter Class Year</label>' .
+        '<h3>' . t('Find Your Reunion') . '</h3>' .
+        '<select id="programSelect" name="programSelect" title="Program Select" style="width:286px">' .
+          '<option value="">' . t('Program') . '</option>' .
+          '<option value="MBA">' . t('MBA') . '</option>' .
+          '<option value="MSx">' . t('MSx') . '</option>' .
+          '<option value="Sloan">' . t('Sloan') . '</option>' .
+        '</select><br/><br/>' .
+        '<label id="label_programYear" for="programYear">' . t('Enter Class Year') . '</label>' .
         '<input id="programYear" maxlength="4" name="programYear" size="4" type="text" placeholder="YYYY">' .
-        '<p id="programYearError">Please enter your class year in YYYY</p>' .
+        '<p id="programYearError">' . t('Please enter your class year in YYYY') . '</p>' .
         '<br/><br/>' .
-        '<p id="noReunionPage">Your Reunion Page has not been created</p>' .
+        '<p id="noReunionPage">' . t('Your Reunion Page has not been created') . '</p>' .
         '<a id="gotoReunion" href="">' . t('Go to Your Reunion Page') . '</a>' .
         '',
       '#attached' => $attached,
