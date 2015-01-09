@@ -1,0 +1,4 @@
+name = GSB Alumni Reunion Group Page Display
+description = Display for Alumni Reunion Group Pages
+core = 7.x
+package = GSB

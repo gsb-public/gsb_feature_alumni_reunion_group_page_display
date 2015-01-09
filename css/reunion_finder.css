@@ -1,0 +1,25 @@
+#programYear {
+  display: none;
+}
+
+#programYear.error {
+  border: 2px solid red;
+}
+
+#programYearError {
+  color: red;
+  display: none;
+  font-size: 18px;
+}
+
+#label_programYear {
+  display: none;
+}
+
+#gotoReunion {
+  display: none;
+}
+
+#noReunionPage {
+  display: none;
+}
