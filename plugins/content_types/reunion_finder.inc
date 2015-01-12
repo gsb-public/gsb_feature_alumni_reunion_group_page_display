@@ -33,7 +33,10 @@ function gsb_feature_alumni_reunion_group_page_display_reunion_finder_content_ty
     'title' => '',
     'content' => array(
       '#markup' => '' .
+        '<div class="reunion-finder-image-wrapper"><img src="/' . drupal_get_path('module', 'gsb_feature_alumni_reunion_group_page_display') . '/images/bg-reunion-finder.jpg"></img></div>' .
+        '<div class="reunion-finder-content-wrapper">' .
         '<h3>Find Your Reunion</h3>' .
+        '<div class="reunion-finder-form-wrapper">' .
         '<select id="programSelect" name="programSelect" title="Program Select" style="width:286px">
           <option value="">Program</option>
           <option value="MBA">MBA</option>
@@ -46,6 +49,7 @@ function gsb_feature_alumni_reunion_group_page_display_reunion_finder_content_ty
         '<br/><br/>' .
         '<p id="noReunionPage">Your Reunion Page has not been created</p>' .
         '<a id="gotoReunion" href="">' . t('Go to Your Reunion Page') . '</a>' .
+        '</div></div>' .
         '',
       '#attached' => $attached,
     ),
