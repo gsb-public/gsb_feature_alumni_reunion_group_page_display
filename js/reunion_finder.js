@@ -6,6 +6,12 @@
 
     attach: function (context, settings) {
 
+      // seems like we need to do this show/hide trickyness
+      // to have the gotoReunion button/link show correctly
+      // later in the process
+      $('#gotoReunion').show();
+      $('#gotoReunion').hide();
+
       // the delay function used to watch user's keyups in
       // the program year field
       var delay = (function() {
