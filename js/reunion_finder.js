@@ -125,7 +125,6 @@
         // entered program year value
         delay(function() {
           // make the ajax call to get the alias path for the program
-          var getURL = "/" + "alumni-reunion-lookup-alias" + "/" + programSelectValue + "/" + programYearValue;
           getAlias(aliases, programSelectValue, programYearValue);
         }, 500 );
       });
@@ -158,7 +157,6 @@
           // drupal hook menu land
           var programYearValue = '';
           // make the ajax call to get the alias path for the program
-          var getURL = "/" + "alumni-reunion-lookup-alias" + "/" + programSelectValue + "/" + programYearValue;
           getAlias(aliases, programSelectValue, programYearValue);
         }
       });
