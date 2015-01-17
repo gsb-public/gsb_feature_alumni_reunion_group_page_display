@@ -1,93 +1,6 @@
 <?php
 
 /**
- * Implements hook_menu().
- */
-function gsb_feature_alumni_reunion_group_page_display_menu() {
-  $items = array();
-  $items['alumni-reunion-lookup-alias/%/%'] = array(
-    'title' => 'Alumni Reunion Alias Lookup',
-    'page callback' => 'gsb_feature_alumni_reunion_group_page_display_lookup_alias',
-    'page arguments' => array(1,2),
-    'access callback' => TRUE,
-    'type' => MENU_SUGGESTED_ITEM,
-  );
-  return $items;
-}
-
-/**
- * Lookups up the path alias for the given program (also considers year if program is MBA).
- */
-function gsb_feature_alumni_reunion_group_page_display_lookup_alias($program, $program_year) {
-
-  // cleanz ups da input
-  $program_year = check_plain($program_year);
-  if ($program == 'Sloan') {
-    $program = 'MSx';
-  }
-
-  // the lookup will first find an entity id
-  $entity_id = '';
-
-  // lookup the alias
-  // lookup for the MBA program uses both the program year and program name, so the
-  // query is a little different
-  if ($program == 'MBA') {
-    $query = db_select('field_data_field_year', 'fy');
-    $query->join('field_data_field_alumni_program', 'ap', 'fy.entity_id = ap.entity_id');
-    $result = $query
-      ->fields('fy', array('entity_id'))
-      ->condition('fy.bundle', 'alumni_reunion_group_page', '=')
-      ->condition('field_alumni_program_value', 'MBA', '=')
-      ->condition('field_year_value', $program_year . '%', 'LIKE')
-      ->execute();
-    foreach ($result as $record) {
-      $entity_id = $record->entity_id;
-    }
-    // one last thing...
-    // if we didn't find an entity id in the above lookup and...
-    // if the program year goes back 50 years,
-    // then we return the half-century alias
-    $currentYear = date("Y");
-    if ($entity_id == '' && $program_year < $currentYear - 50) {
-      $query = db_select('field_data_field_alumni_program', 'ap');
-      $result = $query
-        ->fields('ap', array('entity_id'))
-        ->condition('field_alumni_program_value', 'Half Century Club', '=')
-        ->execute();
-      foreach ($result as $record) {
-        $entity_id = $record->entity_id;
-      }
-    }
-  }
-  else if ($program != '') {
-    $query = db_select('field_data_field_alumni_program', 'ap');
-    $result = $query
-      ->fields('ap', array('entity_id'))
-      ->condition('field_alumni_program_value', $program, '=')
-      ->execute();
-    foreach ($result as $record) {
-      $entity_id = $record->entity_id;
-    }
-  }
-
-  // and now, if we have an entity id, we can lookup the alias
-
-  $alias = '';
-  if ($entity_id != '') {
-    $uri = "node/" . $entity_id;
-    $alias = drupal_lookup_path('alias', $uri);
-    $node = node_load($entity_id);
-    if ($node->status != NODE_PUBLISHED) {
-      $alias = '';
-    }
-  }
-
-  return drupal_json_output(array('alumni_reunion_alias' => $alias));
-}
-
-
-/**
  * Implements hook_ctools_plugin_directory().
  */
 function gsb_feature_alumni_reunion_group_page_display_ctools_plugin_directory($owner, $plugin_type) {
@@ -95,3 +8,4 @@ function gsb_feature_alumni_reunion_group_page_display_ctools_plugin_directory($
     return "plugins/$plugin_type";
   }
 }
+

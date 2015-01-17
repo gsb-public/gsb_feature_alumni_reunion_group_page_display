@@ -6,6 +6,8 @@
 
     attach: function (context, settings) {
 
+      var aliases = settings.alumni_reunion_group_page_alias;
+
       // seems like we need to do this show/hide trickyness
       // to have the gotoReunion button/link show correctly
       // later in the process
@@ -58,23 +60,41 @@
         return true;
       }
 
-      // getAlias function - makes ajax call to get the reunion alias
-      var getAlias = function(getURL) {
-        // make the ajax call to get the alias path for the program
-        jQuery.getJSON(getURL, function(data) {
-          if (data.alumni_reunion_alias) {
-            // set the href for the gotoReunion button/link and show it
-            $('#gotoReunion').attr('href', '/' + data.alumni_reunion_alias.toLowerCase());
+      // getAlias function - gets the reunion alias and sets the gotoReunion button/link
+      var getAlias = function(aliases, programSelectValue, programYearValue) {
+
+        if (programSelectValue == 'Sloan') {
+          programSelectValue = 'MSx';
+        }
+
+        var currentYear = new Date().getFullYear();
+        if (programSelectValue == 'MBA' && programYearValue < currentYear - 50) {
+          programSelectValue = 'Half Century Club';
+          programYearValue = '';
+        }
+
+        var reunion_alias = '';
+        for (var index = 0; index < aliases.length; index++) {
+          if (aliases[index].program_year == programSelectValue + programYearValue) {
+            reunion_alias = aliases[index].alias;
+            reunion_alias = reunion_alias.toLowerCase();
+            break;
+          }
+        }
+
+        if (reunion_alias != '') {
+          // set the href for the gotoReunion button/link and show it
+          $('#gotoReunion').attr('href', '/alumni/reunions/' + reunion_alias);
+          //$('#gotoReunion').hide();
+          delay(function() {
             $('#gotoReunion').show();
-          }
-          else {
-            // since no alias was found... show the 'no reunion page' error text
-            $('#noReunionPage').show();
-          }
-        })
-        .fail(function() {
-          console.log('failed alumni reunion alias lookup');
-        });
+          }, 42 );
+        }
+        else {
+          // since no alias was found... show the 'no reunion page' error text
+          $('#noReunionPage').show();
+        }
+
       };
 
       // when a new char has been typed into the program year field
@@ -106,7 +126,7 @@
         delay(function() {
           // make the ajax call to get the alias path for the program
           var getURL = "/" + "alumni-reunion-lookup-alias" + "/" + programSelectValue + "/" + programYearValue;
-          getAlias(getURL);
+          getAlias(aliases, programSelectValue, programYearValue);
         }, 500 );
       });
 
@@ -136,10 +156,10 @@
         if (programSelectValue != '' && programSelectValue != 'MBA') {
           // set the program year to something, so we can pass two arguments to
           // drupal hook menu land
-          var programYearValue = 'na';
+          var programYearValue = '';
           // make the ajax call to get the alias path for the program
           var getURL = "/" + "alumni-reunion-lookup-alias" + "/" + programSelectValue + "/" + programYearValue;
-          getAlias(getURL);
+          getAlias(aliases, programSelectValue, programYearValue);
         }
       });
 

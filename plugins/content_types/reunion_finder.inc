@@ -11,6 +11,27 @@ $plugin = array(
  * Implements hook_PLUGIN_content_type_render().
  */
 function gsb_feature_alumni_reunion_group_page_display_reunion_finder_content_type_render($subtype, $conf, $panel_args, $context, $incoming) {
+  // lookup all the group pages and the reunion aliases
+  $query = db_select('node', 'n');
+  $query->addExpression("TRIM(LEADING 'alumni/reunions/' FROM ua.alias)", 'alias');
+  $query->addExpression("CONCAT_WS('', fap.field_alumni_program_value, DATE_FORMAT(fy.field_year_value, '%Y'))", 'program_year');
+  $query->fields('n', array('status', 'type', 'nid'));
+  $query->condition('n.status', '1', '=');
+  $query->condition('n.type', 'alumni_reunion_group_page', '=');
+  $query->leftjoin('field_data_field_year', 'fy', 'n.nid = fy.entity_id');
+  $query->leftjoin('field_data_field_alumni_program', 'fap', 'n.nid = fap.entity_id');
+  $query->leftjoin('url_alias', 'ua', "CONCAT('node/', n.nid) = ua.source");
+  $result = $query->execute();
+  // pass this aliases as settings in the js
+  $settings = array ();
+  foreach ($result as $record) {
+    $settings[] = array(
+      'program_year' => $record->program_year,
+      'alias' => $record->alias,
+      'nid' => $record->nid
+    );
+  }
+  drupal_add_js( array ("alumni_reunion_group_page_alias" => $settings), 'setting');
   // Attach js for reunion finder
   $attached['js'] = array(
     array(
@@ -29,6 +50,7 @@ function gsb_feature_alumni_reunion_group_page_display_reunion_finder_content_ty
       )
     )
   );
+
   return (object) array(
     'title' => '',
     'content' => array(
