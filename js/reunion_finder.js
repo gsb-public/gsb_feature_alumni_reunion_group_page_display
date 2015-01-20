@@ -16,7 +16,7 @@
 
       // the delay function used to watch user's keyups in
       // the program year field
-      var delay = (function() {
+      var delay = (function(callback, ms) {
         var timer = 0;
         return function(callback, ms){
           clearTimeout(timer);
@@ -108,22 +108,22 @@
         var programYearValue = $('#programYear').val();
         // hide the 'no reunion page' error text
         $('#noReunionPage').hide();
-        // do some basic validate of the program year value
-        if (!validateProgramYear(programYearValue)) {
-          // program year is invalid, bye
-          return;
-        }
         // clear the program year error settings
         $('#programYear').removeClass('error');
         $('#programYearError').hide();
-        // check the program year range
-        if (!checkRangeProgramYear(programYearValue)) {
-          // program year is out of range, bye
-          return;
-        }
         // delay a bit before continuing with checking the
         // entered program year value
         delay(function() {
+          // do some basic validate of the program year value
+          if (!validateProgramYear(programYearValue)) {
+            // program year is invalid, bye
+            return;
+          }
+          // check the program year range
+          if (!checkRangeProgramYear(programYearValue)) {
+            // program year is out of range, bye
+            return;
+          }
           // make the ajax call to get the alias path for the program
           getAlias(aliases, programSelectValue, programYearValue);
         }, 500 );
