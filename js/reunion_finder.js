@@ -129,6 +129,16 @@
         }, 500 );
       });
 
+      // when the user presses the enter key, go to the reunion page
+      $(document).keypress(function (e) {
+        if (e.which == 13) {
+          if ($('#gotoReunion').css('display') != 'none') {
+            $('#gotoReunion')[0].click();
+            return false;
+          }
+        }
+      });
+
       // when a new program is selected...
       // we want to update the gotoReunion button/link to have the correct alias path
       // for the selected program.
