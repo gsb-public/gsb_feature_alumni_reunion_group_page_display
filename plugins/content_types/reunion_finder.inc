@@ -63,6 +63,8 @@ function gsb_feature_alumni_reunion_group_page_display_reunion_finder_content_ty
           '<option value="">' . t('Program') . '</option>' .
           '<option value="MBA">' . t('MBA') . '</option>' .
           '<option value="MSx">' . t('MSx') . '</option>' .
+          '<option value="PhD">' . t('PhD') . '</option>' .
+          '<option value="SEP">' . t('SEP') . '</option>' .
           '<option value="Sloan">' . t('Sloan') . '</option>' .
         '</select><br/><br/>' .
         '<label id="label_programYear" for="programYear">' . t('Enter Class Year') . '</label>' .
