@@ -82,6 +82,10 @@
           }
         }
 
+        if (programSelectValue == 'SEP' || programSelectValue == 'PhD' ) {
+          reunion_alias = 'alumni-weekend';
+        }
+
         if (reunion_alias != '') {
           // set the href for the gotoReunion button/link and show it
           $('#gotoReunion').attr('href', '/alumni/reunions/' + reunion_alias);
