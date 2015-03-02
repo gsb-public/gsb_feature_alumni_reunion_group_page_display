@@ -147,6 +147,11 @@
       // we want to update the gotoReunion button/link to have the correct alias path
       // for the selected program.
       $('#programSelect').change(function () {
+        programSelectChange();
+      });
+
+      var programSelectChange = function() {
+
         // get the selected program
         var programSelectValue = $('#programSelect').val();
         // hide the gotoReunion button/link and...
@@ -173,7 +178,12 @@
           // make the ajax call to get the alias path for the program
           getAlias(aliases, programSelectValue, programYearValue);
         }
-      });
+
+      };
+
+      delay(function() {
+        programSelectChange();
+      }, 500 );
 
     } // end attach
 
