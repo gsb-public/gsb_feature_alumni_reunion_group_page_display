@@ -66,11 +66,10 @@ function gsb_feature_alumni_reunion_group_page_display_reunion_finder_content_ty
           '<option value="PhD">' . t('PhD') . '</option>' .
           '<option value="SEP">' . t('SEP') . '</option>' .
           '<option value="Sloan">' . t('Sloan') . '</option>' .
-        '</select><br/><br/>' .
+        '</select>' .
         '<label id="label_programYear" for="programYear">' . t('Enter Class Year') . '</label>' .
         '<input id="programYear" maxlength="4" name="programYear" size="4" type="text" placeholder="YYYY">' .
         '<p id="programYearError">' . t('Please enter your class year in YYYY') . '</p>' .
-        '<br/><br/>' .
         '<p id="noReunionPage">' . t('Your Reunion Page has not been created') . '</p>' .
         '<a id="gotoReunion" href="">' . t('Go to Your Reunion Page') . '</a>' .
         '</div></div>' .
