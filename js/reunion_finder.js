@@ -8,6 +8,12 @@
 
       var aliases = settings.alumni_reunion_group_page_alias;
 
+      var PROGRAM_MBA = 'MBA';
+      var PROGRAM_MSX = 'MSx';
+      var PROGRAM_SLOAN = 'Sloan';
+      var PROGRAM_PHD = 'PhD';
+      var PROGRAM_SEP = 'SEP';
+
       // seems like we need to do this show/hide trickyness
       // to have the gotoReunion button/link show correctly
       // later in the process
@@ -63,16 +69,11 @@
       // getAlias function - gets the reunion alias and sets the gotoReunion button/link
       var getAlias = function(aliases, programSelectValue, programYearValue) {
 
-        if (programSelectValue == 'Sloan') {
-          programSelectValue = 'MSx';
+        if (programSelectValue == PROGRAM_SLOAN) {
+          programSelectValue = PROGRAM_MSX;
         }
 
-        var currentYear = new Date().getFullYear();
-        if (programSelectValue == 'MBA' && programYearValue < currentYear - 50) {
-          programSelectValue = 'Half Century Club';
-          programYearValue = '';
-        }
-
+        // attempt to lookup the alias to an existing page with the year
         var reunion_alias = '';
         for (var index = 0; index < aliases.length; index++) {
           if (aliases[index].program_year == programSelectValue + programYearValue) {
@@ -82,8 +83,18 @@
           }
         }
 
-        if (programSelectValue == 'SEP' || programSelectValue == 'PhD' ) {
-          reunion_alias = 'alumni-weekend';
+        // if we weren't able to find a page, then set the alias to other possible defaults
+        if (reunion_alias == '') {
+          var currentYear = new Date().getFullYear();
+          if (programSelectValue == PROGRAM_MBA && programYearValue < currentYear - 50) {
+            reunion_alias = 'half-century-club';
+          }
+          if (programSelectValue == PROGRAM_MSX && programYearValue < currentYear - 50) {
+            reunion_alias = 'all-sloan-msx';
+          }
+          if (programSelectValue == PROGRAM_SEP || programSelectValue == PROGRAM_PHD) {
+            reunion_alias = 'alumni-weekend';
+          }
         }
 
         if (reunion_alias != '') {
@@ -162,8 +173,11 @@
         $('#programYear').val('');
         $('#programYear').removeClass('error');
         $('#programYearError').hide();
-        // ...show the program year field if the user has selected the MBA program
-        if (programSelectValue == 'MBA') {
+        // ...show the program year field if the user has selected the MBA, MSx or Sloan program
+        if (programSelectValue == PROGRAM_SLOAN) {
+          programSelectValue = PROGRAM_MSX;
+        }
+        if (programSelectValue == PROGRAM_MBA || programSelectValue == PROGRAM_MSX) {
           $('#programYear').show();
           $('#label_programYear').show();
         }
@@ -171,7 +185,7 @@
           $('#programYear').hide();
           $('#label_programYear').hide();
         }
-        if (programSelectValue != '' && programSelectValue != 'MBA') {
+        if (programSelectValue != '' && programSelectValue != PROGRAM_MBA && programSelectValue != PROGRAM_MSX) {
           // set the program year to something, so we can pass two arguments to
           // drupal hook menu land
           var programYearValue = '';
