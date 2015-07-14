@@ -89,7 +89,7 @@
           if (programSelectValue == PROGRAM_MBA && programYearValue < currentYear - 50) {
             reunion_alias = 'half-century-club';
           }
-          if (programSelectValue == PROGRAM_MSX && programYearValue < currentYear - 50) {
+          if (programSelectValue == PROGRAM_MSX) {
             reunion_alias = 'all-sloan-msx';
           }
           if (programSelectValue == PROGRAM_SEP || programSelectValue == PROGRAM_PHD) {
