@@ -71,7 +71,7 @@ function gsb_feature_alumni_reunion_group_page_display_reunion_finder_content_ty
         '<input id="programYear" maxlength="4" name="programYear" size="4" type="text" placeholder="YYYY">' .
         '<p id="programYearError">' . t('Please enter your class year in YYYY') . '</p>' .
         '<p id="noReunionPage">' . t('Your Reunion Page has not been created') . '</p>' .
-        '<a id="gotoReunion" href="">' . t('Go to Your Reunion Page') . '</a>' .
+        '<a id="gotoReunion" href="/">' . t('Go to Your Reunion Page') . '</a>' .
         '</div></div>' .
         '',
       '#attached' => $attached,
