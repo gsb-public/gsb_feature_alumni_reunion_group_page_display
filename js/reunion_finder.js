@@ -92,8 +92,11 @@
           if (programSelectValue == PROGRAM_MSX) {
             reunion_alias = 'all-sloan-msx';
           }
-          if (programSelectValue == PROGRAM_SEP || programSelectValue == PROGRAM_PHD) {
+          if (programSelectValue == PROGRAM_PHD) {
             reunion_alias = 'alumni-weekend';
+          }
+          if (programSelectValue == PROGRAM_SEP) {
+            reunion_alias = 'sep-65th-anniversary';
           }
         }
 
