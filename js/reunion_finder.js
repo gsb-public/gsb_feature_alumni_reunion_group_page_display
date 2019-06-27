@@ -96,7 +96,7 @@
             reunion_alias = 'alumni-weekend';
           }
           if (programSelectValue == PROGRAM_SEP) {
-            reunion_alias = 'sep-65th-anniversary';
+            reunion_alias = 'alumni-weekend';
           }
         }
 
